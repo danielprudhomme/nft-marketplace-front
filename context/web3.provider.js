@@ -1,5 +1,11 @@
 import { ethers } from 'ethers'
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import contractsData from '../contractsData.json'
 
 const Web3Context = createContext({ provider: null })
@@ -9,7 +15,7 @@ export function Web3Provider({ children }) {
   const [nft, setNFT] = useState({})
   const [marketplace, setMarketplace] = useState({})
 
-  async function connectMetamask() {
+  const connectMetamask = useCallback(async () => {
     if (!window.ethereum) {
       window.alert('Metamask is required !')
       return
@@ -32,10 +38,6 @@ export function Web3Provider({ children }) {
       await connectMetamask()
     })
 
-    loadContracts(signer)
-  }
-
-  const loadContracts = async (signer) => {
     const marketplace = new ethers.Contract(
       contractsData.marketplace.address,
       contractsData.marketplace.abi,
@@ -48,11 +50,11 @@ export function Web3Provider({ children }) {
       signer,
     )
     setNFT(nft)
-  }
+  }, [])
 
   useEffect(() => {
     connectMetamask()
-  }, [])
+  }, [connectMetamask])
 
   return (
     <Web3Context.Provider
