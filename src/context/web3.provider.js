@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react'
-import contractsData from '../contractsData.json'
+import contractsData from '../../contractsData.json'
 
 const Web3Context = createContext({ provider: null })
 

@@ -1,6 +1,6 @@
 import Head from 'next/head'
+import styles from '../../styles/Home.module.css'
 import { useWeb3Context } from '../context/web3.provider'
-import styles from '../styles/Home.module.css'
 
 export default function Home() {
   const { account, nft } = useWeb3Context()
